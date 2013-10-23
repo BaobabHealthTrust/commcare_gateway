@@ -250,6 +250,8 @@ class SyncController < ApplicationController
         "<n#{i}:userID>#{user_id}</n#{i}:userID><n#{i}:timeStart>#{Time.now.strftime("%Y-%m-%dT%H:%M:%S%z")}</n#{i}:timeStart>" +
         "<n#{i}:timeEnd>#{Time.now.strftime("%Y-%m-%dT%H:%M:%S%z")}</n#{i}:timeEnd></n#{i}:meta></data>"
   
+    Dir.mkdir("#{Rails.root}/tmp") if !File.exists?("#{Rails.root}/tmp")
+  
     filename = "#{Rails.root}/tmp/create_patients_#{Time.now.to_i}.xml"
     
     file = File.open("#{filename}", "w+")
@@ -310,6 +312,8 @@ BaobabHealthTrust
     xml += "<n#{i}:meta xmlns:n#{i}='http://openrosa.org/jr/xforms'><n#{i}:username>sync</n#{i}:username>" +
         "<n#{i}:userID>#{user_id}</n#{i}:userID><n#{i}:timeStart>#{Time.now.strftime("%Y-%m-%dT%H:%M:%S%z")}</n#{i}:timeStart>" +
         "<n#{i}:timeEnd>#{Time.now.strftime("%Y-%m-%dT%H:%M:%S%z")}</n#{i}:timeEnd></n#{i}:meta></data>"
+  
+    Dir.mkdir("#{Rails.root}/tmp") if !File.exists?("#{Rails.root}/tmp")
   
     filename = "#{Rails.root}/tmp/update_patients_#{Time.now.to_i}.xml"
     
