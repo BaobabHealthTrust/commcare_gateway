@@ -1,0 +1,23 @@
+development:
+  cchq_user: chimwemwe.kachaje@baobabhealth.org
+  cchq_pass: b40b4b
+  cchq_village_id: d297afa7f8f7f272b45431a0bb1d163c
+  cchq_user_id: b2dd4d7747e870f28147f793c33b47fe
+  cchq_project: vitals-registration
+  cchq_version: 0.4
+  
+production:
+  cchq_user: 
+  cchq_pass: 
+  cchq_village_id: 
+  cchq_user_id: 
+  cchq_project: 
+  cchq_version: 
+  
+test:
+  cchq_user: 
+  cchq_pass: 
+  cchq_village_id: 
+  cchq_user_id: 
+  cchq_project: 
+  cchq_version: 

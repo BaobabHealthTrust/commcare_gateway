@@ -1,0 +1,71 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  case_id: MyString
+  case_type: MyString
+  name: MyString
+  external_id: MyString
+  owner_id: MyString
+  date_modified: 2013-10-18
+  given_name: MyString
+  middle_name: MyString
+  family_name_prefix: MyString
+  family_name: MyString
+  family_name2: MyString
+  gender: MyString
+  birthdate: 2013-10-18
+  birthdate_estimated: 1
+  dead: 1
+  death_date: 2013-10-18
+  cause_of_death: MyString
+  national_id: MyString
+  address1: MyString
+  address2: MyString
+  city_village: MyString
+  state_province: MyString
+  postal_code: MyString
+  country: MyString
+  latitude: 
+  longitude: 
+  county_district: MyString
+  neighborhood_cell: MyString
+  region: MyString
+  subregion: MyString
+  township_division: MyString
+  sync_with_cchq: 1
+  cchq_closed: 1
+
+two:
+  case_id: MyString
+  case_type: MyString
+  name: MyString
+  external_id: MyString
+  owner_id: MyString
+  date_modified: 2013-10-18
+  given_name: MyString
+  middle_name: MyString
+  family_name_prefix: MyString
+  family_name: MyString
+  family_name2: MyString
+  gender: MyString
+  birthdate: 2013-10-18
+  birthdate_estimated: 1
+  dead: 1
+  death_date: 2013-10-18
+  cause_of_death: MyString
+  national_id: MyString
+  address1: MyString
+  address2: MyString
+  city_village: MyString
+  state_province: MyString
+  postal_code: MyString
+  country: MyString
+  latitude: 
+  longitude: 
+  county_district: MyString
+  neighborhood_cell: MyString
+  region: MyString
+  subregion: MyString
+  township_division: MyString
+  sync_with_cchq: 1
+  cchq_closed: 1
