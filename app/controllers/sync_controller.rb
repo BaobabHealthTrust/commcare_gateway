@@ -166,7 +166,7 @@ class SyncController < ApplicationController
             :case_type => "person",
             :name => "#{record["given_name"]} #{record["family_name"]}",
             :external_id => record["national_id"],
-            :owner_id => village_id,BaobabHealthTrust
+            :owner_id => village_id,
             :date_modified => Date.today.strftime("%Y-%m-%d"),
             :given_name => record["given_name"],
             :middle_name => record["middle_name"],
@@ -269,7 +269,7 @@ class SyncController < ApplicationController
     render :xml => xml
   
   end
-BaobabHealthTrust
+
   def push_update_patients
   
     settings = YAML.load_file("#{Rails.root}/config/application.yml")[Rails.env] rescue {}
