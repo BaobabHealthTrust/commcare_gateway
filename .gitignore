@@ -1,4 +1,4 @@
 Gemfile.lock
 log/
 tmp/
-*.yml
+config/*.yml

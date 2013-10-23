@@ -262,7 +262,9 @@ class SyncController < ApplicationController
     
     project = settings["cchq_project"]
     
-    url = "https://www.commcarehq.org/a/#{project}/receiver/"
+    domain = settings["cchq_domain"]
+  
+    url = "#{domain}/a/#{project}/receiver/"
     
     cchqrequest(url, filename)
   
@@ -325,7 +327,9 @@ class SyncController < ApplicationController
     
     project = settings["cchq_project"]
     
-    url = "https://www.commcarehq.org/a/#{project}/receiver/"
+    domain = settings["cchq_domain"]
+  
+    url = "#{domain}/a/#{project}/receiver/"
     
     cchqrequest(url, filename)
   
@@ -341,14 +345,215 @@ class SyncController < ApplicationController
     
     version = settings["cchq_version"]
     
-    url = "https://www.commcarehq.org/a/#{project}/api/v#{version}/case/?format=json&type=person"
+    village_id = settings["cchq_village_id"]
+  
+    domain = settings["cchq_domain"]
+  
+    url = "#{domain}/a/#{project}/api/v#{version}/case/?format=json&type=person&date_modified_start=#{(Time.now - 26.hours).strftime("%Y-%m-%dT%H:%M:%S")}Z"
     
     result = cchqrequest(url)
         
     result = JSON.parse(result)
         
-    render :json => result
-  
+    if result["objects"]
+      
+      output = ""
+      
+      patients = []
+      
+      result["objects"].each do |record|
+      
+        next if record["properties"]["case_name"].blank?
+        
+        person = Person.find_or_create_by_case_id(
+         
+          :case_id => record["properties"]["case_id"]      
+            
+        )
+    
+        dirty = false
+        
+        if person[:case_type] != "person"
+          dirty = true
+          
+          output = "case_type failed<br />" + output
+          
+        elsif person[:external_id] != record["properties"]["national_id"]
+	        dirty = true
+          
+          output = "external_id failed<br />" + output
+          
+        elsif person[:owner_id] != village_id
+	        dirty = true
+          
+          output = "owner_id failed<br />" + output
+          
+        elsif person[:given_name] != record["properties"]["given_name"]
+	        dirty = true
+          
+          output = "given_name failed<br />" + output
+          
+        elsif person[:middle_name] != record["properties"]["middle_name"]
+	        dirty = true
+          
+          output = "middle_name failed<br />" + output
+          
+        elsif person[:family_name_prefix] != record["properties"]["family_name_prefix"]
+	        dirty = true
+          
+          output = "family_name_prefix failed<br />" + output
+          
+        elsif person[:family_name] != record["properties"]["family_name"]
+	        dirty = true
+          
+          output = "family_name failed<br />" + output
+          
+        elsif person[:family_name2] != record["properties"]["family_name2"]
+	        dirty = true
+          
+          output = "family_name2 failed<br />" + output
+          
+        elsif person[:gender] != record["properties"]["gender"]
+	        dirty = true
+          
+          output = "gender failed<br />" + output
+          
+        elsif person[:birthdate] != record["properties"]["birthdate"]
+	        dirty = true
+          
+          output = "birthdate failed<br />" + output
+          
+        elsif person[:birthdate_estimated] != record["properties"]["birthdate_estimated"]
+	        dirty = true
+          
+          output = "birthdate_estimated failed<br />" + output
+          
+        elsif person[:dead] != record["properties"]["dead"]
+	        dirty = true
+          
+          output = "dead failed<br />" + output
+          
+        elsif person[:death_date] != record["properties"]["death_date"]
+	        dirty = true
+          
+          output = "death_date failed<br />" + output
+          
+        elsif person[:cause_of_death] != record["properties"]["cause_of_death"]
+	        dirty = true
+          
+          output = "cause_of_death failed<br />" + output
+          
+        elsif person[:national_id] != record["properties"]["national_id"]
+	        dirty = true
+          
+          output = "national_id failed<br />" + output
+          
+        elsif person[:address1] != record["properties"]["address1"]
+	        dirty = true
+          
+          output = "address1 failed<br />" + output
+          
+        elsif person[:address2] != record["properties"]["address2"]
+	        dirty = true
+          
+          output = "address2 failed<br />" + output
+          
+        elsif person[:city_village] != record["properties"]["city_village"]
+	        dirty = true
+          
+          output = "city_village failed<br />" + output
+          
+        elsif person[:state_province] != record["properties"]["state_province"]
+	        dirty = true
+          
+          output = "state_province failed<br />" + output
+          
+        elsif person[:postal_code] != record["properties"]["postal_code"]
+	        dirty = true
+          
+          output = "postal_code failed<br />" + output
+          
+        elsif person[:country] != record["properties"]["country"]
+	        dirty = true
+          
+          output = "country failed<br />" + output
+          
+        elsif person[:county_district] != record["properties"]["county_district"]
+	        dirty = true
+          
+          output = "county_district failed<br />" + output
+          
+        end
+    
+        if dirty and !record["properties"]["case_name"].blank?
+          person.update_attributes(
+            {
+            :case_type => "person",
+            :name => "#{record["properties"]["given_name"]} #{record["properties"]["family_name"]}",
+            :external_id => record["properties"]["national_id"],
+            :owner_id => village_id,
+            :date_modified => Date.today.strftime("%Y-%m-%d"),
+            :given_name => record["properties"]["given_name"],
+            :middle_name => record["properties"]["middle_name"],
+            :family_name_prefix => record["properties"]["family_name_prefix"],
+            :family_name => record["properties"]["family_name"],
+            :family_name2 => record["properties"]["family_name2"],
+            :gender => record["properties"]["gender"],
+            :birthdate => record["properties"]["birthdate"],
+            :birthdate_estimated => record["properties"]["birthdate_estimated"],
+            :dead => record["properties"]["dead"],
+            :death_date => record["properties"]["death_date"],
+            :cause_of_death => record["properties"]["cause_of_death"],
+            :national_id => record["properties"]["national_id"],
+            :address1 => record["properties"]["address1"],
+            :address2 => record["properties"]["address2"],
+            :city_village => record["properties"]["city_village"],
+            :state_province => record["properties"]["state_province"],
+            :postal_code => record["properties"]["postal_code"],
+            :country => record["properties"]["country"],
+            :county_district => record["properties"]["county_district"],
+            :sync_with_cchq => 1
+          }) 
+        end    
+      
+        patients << {
+            :case_type => "person",
+            :name => "#{record["properties"]["given_name"]} #{record["properties"]["family_name"]}",
+            :external_id => record["properties"]["national_id"],
+            :owner_id => village_id,
+            :date_modified => Date.today.strftime("%Y-%m-%d"),
+            :given_name => record["properties"]["given_name"],
+            :middle_name => record["properties"]["middle_name"],
+            :family_name_prefix => record["properties"]["family_name_prefix"],
+            :family_name => record["properties"]["family_name"],
+            :family_name2 => record["properties"]["family_name2"],
+            :gender => record["properties"]["gender"],
+            :birthdate => record["properties"]["birthdate"],
+            :birthdate_estimated => record["properties"]["birthdate_estimated"],
+            :dead => record["properties"]["dead"],
+            :death_date => record["properties"]["death_date"],
+            :cause_of_death => record["properties"]["cause_of_death"],
+            :national_id => record["properties"]["national_id"],
+            :address1 => record["properties"]["address1"],
+            :address2 => record["properties"]["address2"],
+            :city_village => record["properties"]["city_village"],
+            :state_province => record["properties"]["state_province"],
+            :postal_code => record["properties"]["postal_code"],
+            :country => record["properties"]["country"],
+            :county_district => record["properties"]["county_district"],
+            :sync_with_cchq => 0,
+            :mapped_to_cchq => 1
+          }
+      end
+      
+      render :xml => patients.to_xml
+      
+    else
+    
+      render :json => result
+      
+    end
+       
   end
 
 end

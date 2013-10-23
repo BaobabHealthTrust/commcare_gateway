@@ -5,6 +5,7 @@ development:
   cchq_user_id: b2dd4d7747e870f28147f793c33b47fe
   cchq_project: vitals-registration
   cchq_version: 0.4
+  cchq_domain: https://www.commcarehq.org
   
 production:
   cchq_user: 
