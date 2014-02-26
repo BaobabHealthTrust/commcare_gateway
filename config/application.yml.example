@@ -1,0 +1,24 @@
+development:
+  cchq_user: 
+  cchq_pass: 
+  cchq_village_id: 
+  cchq_user_id: 
+  cchq_project: 
+  cchq_version: 0.4
+  cchq_domain: https://www.commcarehq.org
+  
+production:
+  cchq_user: 
+  cchq_pass: 
+  cchq_village_id: 
+  cchq_user_id: 
+  cchq_project: 
+  cchq_version: 
+  
+test:
+  cchq_user: 
+  cchq_pass: 
+  cchq_village_id: 
+  cchq_user_id: 
+  cchq_project: 
+  cchq_version: 

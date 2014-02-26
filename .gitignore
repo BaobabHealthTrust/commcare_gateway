@@ -2,3 +2,5 @@ Gemfile.lock
 log/
 tmp/
 config/*.yml
+config/application.yml
+config/database.yml
